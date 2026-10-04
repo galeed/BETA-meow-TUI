@@ -4,7 +4,7 @@
   "description": "Docs",
   "start_url": "index.html",
   "display": "fullscreen",
-  "orientation": "portain",
+  "orientation": "portrait",
   "background_color": "#FFFFFF",
   "theme_color": "#3B82F6",
   "icons": [
