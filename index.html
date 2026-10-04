@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0a120b" id="metaTheme">
-<title>MEOW.SH // TUI Audio Player</title>
+<title>PLAYER.SH // TUI Audio Player</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230a120b' stroke='%2300ff66' stroke-width='2.5'/%3E%3Crect x='6' y='6' width='52' height='13' rx='4' fill='%23040905'/%3E%3Ccircle cx='14' cy='12.5' r='2.5' fill='%23ff5f56'/%3E%3Ccircle cx='22' cy='12.5' r='2.5' fill='%23ffbd2e'/%3E%3Ccircle cx='30' cy='12.5' r='2.5' fill='%2327c93f'/%3E%3Cpath d='M14 30L26 39L14 48' stroke='%2300ff66' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cline x1='32' y1='48' x2='48' y2='48' stroke='%2300ffcc' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Share+Tech+Mono&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
@@ -20,7 +20,7 @@
 *{box-sizing:border-box}
 :root{--sat:env(safe-area-inset-top,0px);--sar:env(safe-area-inset-right,0px);--sab:env(safe-area-inset-bottom,0px);--sal:env(safe-area-inset-left,0px)}
 html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none;background:var(--bg-main)}
-body{background:var(--bg-main);color:var(--fg-main);font-family:'JetBrains Mono','Share Tech Mono',monospace;position:fixed;inset:0;height:100vh;height:100dvh;display:flex;align-items:center;justify-content:center;padding:calc(var(--sat) + 10px) calc(var(--sar) + 8px) calc(var(--sab) + 10px) calc(var(--sal) + 8px);overflow:hidden;overscroll-behavior:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background-color .3s,color .3s;animation:flick .15s infinite}
+body{background:var(--bg-main);color:var(--fg-main);font-family:'JetBrains Mono','Share Tech Mono',monospace;position:fixed;inset:0;height:100vh;height:var(--app-h,100dvh);display:flex;align-items:center;justify-content:center;padding:calc(var(--sat) + 10px) calc(var(--sar) + 8px) calc(var(--sab) + 10px) calc(var(--sal) + 8px);overflow:hidden;overscroll-behavior:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background-color .3s,color .3s;animation:flick .15s infinite}
 @keyframes flick{0%{opacity:.995}50%{opacity:1}52%{opacity:.96}54%{opacity:1}80%{opacity:.99}100%{opacity:1}}
 ::selection{background:var(--selection-bg);color:var(--fg-main)}
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:var(--bg-main);border-left:1px solid var(--border-color)}::-webkit-scrollbar-thumb{background:var(--border-color)}::-webkit-scrollbar-thumb:hover{background:var(--fg-dim)}
@@ -117,7 +117,7 @@ body{padding:0;align-items:stretch}
   <div class="bar">
     <div class="dots">
       <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
-      <span class="wtitle">🎵 MEOW.SH <span class="hide-m">[LOCAL + CACHE]</span></span>
+      <span class="wtitle">🎵 PLAYER.SH <span class="hide-m">[LOCAL + CACHE]</span></span>
     </div>
     <div class="tools">
       <select id="theme" class="sel th" aria-label="Tema">
@@ -131,7 +131,7 @@ body{padding:0;align-items:stretch}
     <div class="deck">
       <div class="cass">
         <div class="row top">
-          <div class="row" style="gap:6px"><span class="badge b1">MEOW AUDIO. LOSSLESS</span><span class="badge b2" id="fmt">LOCAL</span></div>
+          <div class="row" style="gap:6px"><span class="badge b1">TYPE-II HIGH BIAS</span><span class="badge b2" id="fmt">LOCAL</span></div>
           <div class="stat"><span class="led" id="led"></span><span id="stxt">STANDBY</span></div>
         </div>
         <div class="reels">
@@ -172,7 +172,7 @@ body{padding:0;align-items:stretch}
         <input type="file" id="files" multiple accept=".mp3,.wav,.ogg,.flac,.m4a,.aac,audio/*"></div>
       <div class="row" style="gap:8px">
         <select id="eq" class="sel" style="flex:1" aria-label="Ecualizador">
-          <option value="flat">EQ: Flat</option><option value="bass">EQ: Bass Boost</option><option value="elec">EQ: Electronic</option><option value="hard">EQ: Hardstyle</option><option value="dance">EQ: Dance</option><option value="hip">EQ: Hip-Hop</option><option value="rnb">EQ: R&amp;B</option><option value="pop">EQ: Pop</option><option value="rock">EQ: Rock</option><option value="class">EQ: Classical</option><option value="acou">EQ: Acoustic</option><option value="vocal">EQ: Vocal</option><option value="pure">EQ: Pure Hi-Res</option>
+          <option value="flat">🎛 EQ: Flat</option><option value="bass">EQ: Bass Boost</option><option value="elec">EQ: Electronic</option><option value="hard">EQ: Hardstyle</option><option value="dance">EQ: Dance</option><option value="hip">EQ: Hip-Hop</option><option value="rnb">EQ: R&amp;B</option><option value="pop">EQ: Pop</option><option value="rock">EQ: Rock</option><option value="class">EQ: Classical</option><option value="acou">EQ: Acoustic</option><option value="vocal">EQ: Vocal</option><option value="pure">EQ: Pure Hi-Res</option>
         </select>
         <select id="sort" class="sel" style="flex:1" aria-label="Ordenar">
           <option value="seq">⇅ Orden original</option><option value="title">⇅ Título</option><option value="artist">⇅ Artista</option><option value="album">⇅ Álbum</option>
@@ -194,7 +194,6 @@ body{padding:0;align-items:stretch}
 </div>
 
 <script>
-
 const $=id=>document.getElementById(id), aud=$('aud');
 const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}};
 const isMobile=()=>innerWidth<768||/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -390,22 +389,10 @@ function setMediaSession(t){
   h('play',()=>{play()});
   h('pause',()=>aud.pause());
   h('stop',()=>{aud.pause();aud.currentTime=0});
-  
-  // Activa los botones de saltar pista
-h('previoustrack', prev);
-h('nexttrack', next);
-
-// Permite arrastrar la barra de progreso en la pantalla de bloqueo
-h('seekto', d => {
-  if (d.seekTime != null) {
-    aud.currentTime = d.seekTime;
-    posState();
-  }
-});
-
-// ¡ELIMINA LAS LÍNEAS DE 'seekbackward' Y 'seekforward'!
-// Al borrarlas, iOS ya no intentará poner los botones de 10 segundos.
-
+  h('previoustrack',prev);h('nexttrack',next);
+  h('seekto',d=>{if(d.seekTime!=null){aud.currentTime=d.seekTime;posState()}});
+  /* Sin handlers de seekbackward/seekforward para que el sistema muestre anterior/siguiente y no ±10 s */
+  h('seekbackward',null);h('seekforward',null)}
 function posState(){
   if('mediaSession' in navigator&&navigator.mediaSession.setPositionState&&aud.duration&&isFinite(aud.duration)){
     try{navigator.mediaSession.setPositionState({duration:aud.duration,playbackRate:aud.playbackRate||1,position:Math.min(aud.currentTime,aud.duration)})}catch(e){}}}
