@@ -195,10 +195,6 @@ body{padding:0;align-items:stretch}
 
 <script>
 
-if ('serviceWorker' in navigator) {
-            Y navigator.serviceWorker.register('sw.js');
-        }
-
 const $=id=>document.getElementById(id), aud=$('aud');
 const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}};
 const isMobile=()=>innerWidth<768||/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
