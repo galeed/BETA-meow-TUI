@@ -390,10 +390,22 @@ function setMediaSession(t){
   h('play',()=>{play()});
   h('pause',()=>aud.pause());
   h('stop',()=>{aud.pause();aud.currentTime=0});
-  h('previoustrack',prev);h('nexttrack',next);
-  h('seekto',d=>{if(d.seekTime!=null){aud.currentTime=d.seekTime;posState()}});
-  h('seekbackward',d=>{aud.currentTime=Math.max(0,aud.currentTime-(d.seekOffset||10));posState()});
-  h('seekforward',d=>{aud.currentTime=Math.min(aud.duration||0,aud.currentTime+(d.seekOffset||10));posState()})}
+  
+  // Activa los botones de saltar pista
+h('previoustrack', prev);
+h('nexttrack', next);
+
+// Permite arrastrar la barra de progreso en la pantalla de bloqueo
+h('seekto', d => {
+  if (d.seekTime != null) {
+    aud.currentTime = d.seekTime;
+    posState();
+  }
+});
+
+// ¡ELIMINA LAS LÍNEAS DE 'seekbackward' Y 'seekforward'!
+// Al borrarlas, iOS ya no intentará poner los botones de 10 segundos.
+
 function posState(){
   if('mediaSession' in navigator&&navigator.mediaSession.setPositionState&&aud.duration&&isFinite(aud.duration)){
     try{navigator.mediaSession.setPositionState({duration:aud.duration,playbackRate:aud.playbackRate||1,position:Math.min(aud.currentTime,aud.duration)})}catch(e){}}}
