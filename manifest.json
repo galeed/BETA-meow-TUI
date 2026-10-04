@@ -3,8 +3,8 @@
   "short_name": "MeowTUI",
   "description": "Docs",
   "start_url": "index.html",
-  "display": "standalone",
-  "orientation": "fullscreen",
+  "display": "fullscreen",
+  "orientation": "portain",
   "background_color": "#FFFFFF",
   "theme_color": "#3B82F6",
   "icons": [
