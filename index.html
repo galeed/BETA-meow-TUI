@@ -98,7 +98,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;margin:0}
 .foot{background:var(--status-bar-bg);border-top:1px solid var(--border-color);padding:6px 12px;display:flex;justify-content:space-between;gap:8px;font-size:10px;color:var(--fg-dim);flex-shrink:0}
 kbd{padding:1px 4px;border:1px solid var(--border-color);background:var(--bg-card);color:var(--fg-bright);font-family:inherit}
 .hide-m{display:inline}
-@media(max-width:767px){
+@media(max-width:767px),(pointer:coarse){
 body{padding:0;align-items:stretch}
 .win{max-width:none;max-height:none;height:100%;border:0;box-shadow:none;border-radius:0}
 .bar{padding-top:calc(var(--sat) + 8px);padding-left:calc(var(--sal) + 12px);padding-right:calc(var(--sar) + 12px)}
@@ -212,17 +212,37 @@ $('crtBtn').onclick=()=>applyCrt(document.body.classList.contains('off'));
 const probe=document.createElement('div');
 probe.style.cssText='position:fixed;top:0;left:0;width:0;height:0;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)';
 document.body.appendChild(probe);
+const IPH=/iPhone/.test(navigator.userAgent);
+const standalone=()=>navigator.standalone===true||matchMedia('(display-mode: standalone)').matches;
+/* iPhone con notch o isla según la resolución de pantalla (lado largo en puntos) */
+function deviceCutout(){
+  if(!IPH)return'none';
+  const m=Math.max(screen.width,screen.height);
+  return [852,874,932,956].includes(m)?'island':[812,844,896,926].includes(m)?'notch':'none'}
+function setH(){document.documentElement.style.setProperty('--app-h',Math.round(innerHeight)+'px')}
 function detectCutout(){
-  const s=getComputedStyle(probe),t=parseFloat(s.paddingTop)||0,l=parseFloat(s.paddingLeft)||0,r=parseFloat(s.paddingRight)||0;
-  let type='none';
-  if(t>=54){type='island';ls('tui_cutout','island')}
-  else if(t>=40){type='notch';ls('tui_cutout','notch')}
-  else if(l>=40||r>=40)type=ls('tui_cutout')||'notch'; /* horizontal: se usa el tipo recordado en vertical */
-  document.documentElement.dataset.cutout=type;
+  const root=document.documentElement,s=getComputedStyle(probe);
+  /* leer los márgenes reales del sistema (el probe usa env()) */
+  let t=parseFloat(s.paddingTop)||0,r=parseFloat(s.paddingRight)||0,b=parseFloat(s.paddingBottom)||0,l=parseFloat(s.paddingLeft)||0;
+  let type=deviceCutout();
+  if(type==='none'){ /* Android u otros: solo lo que informe el sistema */
+    if(t>=54)type='island';else if(t>=40||l>=40||r>=40)type='notch'}
+  if(IPH&&type!=='none'){
+    const land=innerWidth>innerHeight,sh=Math.max(screen.width,screen.height);
+    const topFix=type==='island'?59:47;
+    /* Si la página cubre toda la pantalla (app en inicio, webview) y env() no lo reporta, forzar los márgenes */
+    if(!land&&(standalone()||innerHeight>=sh-1)){t=Math.max(t,topFix);b=Math.max(b,34)}
+    else if(land&&standalone()){l=Math.max(l,47);r=Math.max(r,47);b=Math.max(b,21)}}
+  root.style.setProperty('--sat',t+'px');root.style.setProperty('--sar',r+'px');
+  root.style.setProperty('--sab',b+'px');root.style.setProperty('--sal',l+'px');
+  root.dataset.cutout=type;setH();
   $('disp').textContent=type==='island'?' · DYNAMIC ISLAND':type==='notch'?' · NOTCH':'';
 }
 detectCutout();
-addEventListener('resize',detectCutout);addEventListener('orientationchange',()=>setTimeout(detectCutout,250));
+addEventListener('resize',detectCutout);
+addEventListener('pageshow',detectCutout);
+addEventListener('orientationchange',()=>setTimeout(detectCutout,250));
+if(window.visualViewport)visualViewport.addEventListener('resize',setH);
 
 /* ===== APP ESTÁTICA: sin rebote ni arrastre de la página ===== */
 document.addEventListener('touchmove',e=>{
